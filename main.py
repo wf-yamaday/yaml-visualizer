@@ -16,8 +16,6 @@ if __name__ == '__main__':
     if len(args) > 3:
         output_file_name = args[2]
 
-    print(file_name)
-
     # yamlファイルの読み込み
     with open(file_name) as s:
         data = yaml.safe_load(s)
