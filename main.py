@@ -62,18 +62,19 @@ if __name__ == '__main__':
             else:
                 print('[warning] Reccommend set container_name property.')
 
-            # volumeの設定を取得 TODO 同名node問題への対応
-            volume_dict = {}
-            host_path = []
-            container_path = []
+            # volumeの設定を取得
+            container_volume_dict = {}
             if 'volumes' in data[type][d]:
                 volumes_list = data[type][d]['volumes']
                 for v in volumes_list:
                     a = v.split(':')
-                    volume_dict[a[1]] = a[0]
-                    host_volume_dict[a[0]] = a[1]
-                    host_path.append(a[0])
-                    container_path.append(a[1])
+                    if len(a) > 1:
+                        container_volume = '{}_{}'.format(container_name, a[1])
+                        if a[0] in volumes_node:
+                            container_volume_dict[a[1]] = a[0]
+                        else:
+                            container_volume_dict[a[1]] = container_volume
+                            host_volume_dict[a[0]] = container_volume
             # networkの設定を取得
             container_networks = []
             if 'networks' in data[type][d]:
@@ -111,11 +112,16 @@ if __name__ == '__main__':
                 volume_subgraph_name = '{}_volume'.format(subgraph_name)
                 with sg.subgraph(name=volume_subgraph_name) as vsg:
                     vsg.attr(label='volumes')
-                    for p in container_path:
-                        vsg.node(p, shape='folder')
-                        if volume_dict[p] in volumes_node:
-                            g.edge(p, volume_dict[p])
-                # networksとのlinkを作成
+                    for p in container_volume_dict.keys():
+                        if container_volume_dict[p] in volumes_node:
+                            node_name = '{}_{}'.format(container_name, p)
+                            vsg.node(
+                                node_name, p, shape='folder')
+                            g.edge(node_name,
+                                   container_volume_dict[p])
+                            continue
+                        vsg.node(container_volume_dict[p], p, shape='folder')
+                # networksとのedgeを作成
                 for n in container_networks:
                     g.edge(d, n, ltail=subgraph_name)
                 # 環境変数の設定項目を記載
