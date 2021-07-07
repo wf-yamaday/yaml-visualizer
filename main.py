@@ -82,7 +82,7 @@ if __name__ == '__main__':
                     if n in networks_node:
                         container_networks.append(n)
 
-                        # 環境変数の取得
+            # 環境変数の取得
             environment_values = ''
             if 'environment' in data[type][d]:
                 environment_values = '\n'.join(
