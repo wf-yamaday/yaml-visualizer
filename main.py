@@ -95,7 +95,6 @@ if __name__ == '__main__':
                 for p in ports_list:
                     a = p.split(':')
                     if len(a) > 1:  # TODO 単体で指定された場合の処理
-                        host_port = 'host_{}'.format(a[0])
                         container_port = '{}_{}'.format(
                             container_name, a[1])
                         container_port_dict[a[1]] = container_port
