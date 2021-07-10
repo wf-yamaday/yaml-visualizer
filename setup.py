@@ -15,7 +15,7 @@ setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'yaml-vis=src.cli.main:main'
+            'yaml-vis=module.cli.main:main'
         ],
     },
 )
