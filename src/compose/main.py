@@ -47,6 +47,7 @@ def dispatch(filename):
             if 'container_name' in data[type][d]:
                 container_name = data[type][d]['container_name']
             else:
+                # TODO log出力に変更
                 print('[warning] Reccommend set container_name property.')
 
             # volumeの設定を取得
