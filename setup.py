@@ -9,6 +9,7 @@ setup(
     name='yaml-visualizer',
     description='visualize resources defined by docker-compose.yml.',
     author='wf-yamaday',
+    license='MIT License',
     version='0.0.1',
     packages=['src'],
     install_requires=install_requires,
