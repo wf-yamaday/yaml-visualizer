@@ -74,7 +74,10 @@ if __name__ == '__main__':
                             container_volume_dict[a[1]] = a[0]
                         else:
                             container_volume_dict[a[1]] = container_volume
-                            host_volume_dict[a[0]] = container_volume
+                            if a[0] in host_volume_dict.keys():
+                                host_volume_dict[a[0]].append(container_volume)
+                            else:
+                                host_volume_dict[a[0]] = [container_volume]
             # networkの設定を取得
             container_networks = []
             if 'networks' in data[type][d]:
@@ -146,7 +149,8 @@ if __name__ == '__main__':
             for p in host_volume_dict.keys():
                 if not p in volumes_node:
                     vhsg.node(p, shape='folder')
-                    g.edge(p, host_volume_dict[p])
+                    for d in host_volume_dict[p]:
+                        g.edge(p, d)
         # ホストのportのnodeを作成
         port_host_subgraph_name = '{}_port'.format(host_subgraph_name)
         with hsg.subgraph(name=port_host_subgraph_name) as phsg:
