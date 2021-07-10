@@ -1,23 +1,10 @@
-import sys
 import yaml
 from graphviz import Graph
 
-if __name__ == '__main__':
-    args = sys.argv
 
-    if len(args) < 2:
-        print("Argument error")
-        exit(1)
-
-    file_name = args[1]
-
-    # TODO ファイル名を指定して出力
-    output_file_name = './output.png'
-    if len(args) > 3:
-        output_file_name = args[2]
-
+def dispatch(filename):
     # yamlファイルの読み込み
-    with open(file_name) as s:
+    with open(filename) as s:
         data = yaml.safe_load(s)
 
     g = Graph(format='png')
@@ -60,6 +47,7 @@ if __name__ == '__main__':
             if 'container_name' in data[type][d]:
                 container_name = data[type][d]['container_name']
             else:
+                # TODO log出力に変更
                 print('[warning] Reccommend set container_name property.')
 
             # volumeの設定を取得
@@ -160,4 +148,4 @@ if __name__ == '__main__':
                 g.edge(p, host_port_dict[p])
 
     # ファイルに書き出し
-    g.view()
+    return g
