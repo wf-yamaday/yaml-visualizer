@@ -1,5 +1,9 @@
 import yaml
+import logging
 from graphviz import Graph
+
+
+log = logging.getLogger(__name__)
 
 
 def dispatch(filename):
@@ -47,8 +51,7 @@ def dispatch(filename):
             if 'container_name' in data[type][d]:
                 container_name = data[type][d]['container_name']
             else:
-                # TODO log出力に変更
-                print('[warning] Reccommend set container_name property.')
+                log.warning('Reccommend set container_name property.')
 
             # volumeの設定を取得
             container_volume_dict = {}
@@ -147,5 +150,4 @@ def dispatch(filename):
                 phsg.node(p, shape='terminator')
                 g.edge(p, host_port_dict[p])
 
-    # ファイルに書き出し
     return g
