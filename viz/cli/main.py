@@ -5,18 +5,24 @@ import datetime
 import graphviz
 
 from ..compose.main import dispatch
+from .dot import can_use_graphviz
 
 log = logging.getLogger(__name__)
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-i", "--input", help="input filename *.yaml/yml. default: ./docker-compose.yml")
+        "-i", "--input", help="input filename. default: ./docker-compose.yml")
     parser.add_argument(
-        "-o", "--output", help="output filename *.png. default: output-YYYYmmdd-HHMMSS.png")
+        "-o", "--output", help="output filename. default: output-YYYYmmdd-HHMMSS.png")
 
     args = parser.parse_args()
+
+    if not can_use_graphviz():
+        msg = 'cannot find graphviz. please install graphviz.'
+        exit_with_msg(msg)
 
     input_filename = './docker-compose.yml'
     if args.input != None:
@@ -38,6 +44,9 @@ def main():
     except (ValueError, graphviz.RequiredArgumentError, graphviz.ExecutableNotFound, RuntimeError) as e:
         exit_with_msg(e.msg)
 
+    msg = 'Complete! output file: {}.png'.format(output_filename)
+    exit_with_msg(msg, exit_code=0)
+
 
 def exit_with_msg(log_msg=None, exit_code=1):
     if not exit_code:
@@ -45,3 +54,7 @@ def exit_with_msg(log_msg=None, exit_code=1):
     else:
         log.error(log_msg)
     sys.exit(exit_code)
+
+
+if __name__ == "__main__":
+    main()

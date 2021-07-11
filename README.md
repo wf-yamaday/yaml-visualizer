@@ -2,27 +2,44 @@
 
 This tool visualize resources defined by `docker-compose.yml`.
 
-# usage
+- `services`
+- `volumes`
+- `resources`
+
+# Requirement
+
+- [graphviz](https://graphviz.org/)
+
+We use Graphviz which is open source graph visualization software to visualize resources.
+And we use Graphviz installation of your system to save and render graph.
+Please install Graphviz in your system.
+
+
+# Install
 
 ```sh
-python main.py ./docker-compose.yml
+pip install git+https://github.com/wf-yamaday/yaml-visualizer
 ```
 
-## setup
-
-- python > version 3.7
-- graphviz
-- docker-compose.yml > version 3
+# Usage
 
 ```sh
-# for macOS
-brew install graphviz
-pip3 install -r requirements.txt
+$ yaml-viz -h
+usage: yaml-viz [-h] [-i INPUT] [-o OUTPUT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        input filename. default: ./docker-compose.yml
+  -o OUTPUT, --output OUTPUT
+                        output filename. default: output-YYYYmmdd-HHMMSS.png
 ```
 
-# sample
+# Example
 
-## input
+## Input
+
+The following is a sample docker-compose.yml file.
 
 ```yaml
 version: '3.7'
@@ -35,7 +52,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     volumes:
-      - ./tmp/:/var/app/
+      - ./tmp:/var/app/
     tty: true
 
   nginx:
@@ -50,6 +67,12 @@ services:
 
 ```
 
-## output
+```sh
+$ yaml-biz -i docker-compose.yml -o sample
+```
 
-![sample.png](./sample/sample.png)
+## Output
+
+Output as sample.png.
+
+![sample.png](./example/sample.png)
