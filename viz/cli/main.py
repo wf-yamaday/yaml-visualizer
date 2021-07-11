@@ -34,7 +34,7 @@ def main():
         exit_with_msg(msg)
 
     try:
-        g.render(filename=output_filename, cleanup=True, view=True)
+        g.render(filename=output_filename, cleanup=True, view=False)
     except (ValueError, graphviz.RequiredArgumentError, graphviz.ExecutableNotFound, RuntimeError) as e:
         exit_with_msg(e.msg)
 
