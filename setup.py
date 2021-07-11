@@ -11,7 +11,7 @@ setup(
     author='wf-yamaday',
     license='MIT License',
     version='0.0.1',
-    packages=['src'],
+    packages=['module'],
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
