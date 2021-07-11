@@ -1,3 +1,4 @@
+from setuptools import find_packages
 from setuptools import setup
 
 install_requires = [
@@ -11,7 +12,7 @@ setup(
     author='wf-yamaday',
     license='MIT License',
     version='0.0.1',
-    packages=['viz'],
+    packages=find_packages(exclude=['tests.*', 'tests']),
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
