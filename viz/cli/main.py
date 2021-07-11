@@ -2,6 +2,7 @@ import argparse
 import logging
 import sys
 import datetime
+import graphviz
 
 from ..compose.main import dispatch
 
@@ -34,7 +35,7 @@ def main():
 
     try:
         g.render(filename=output_filename, cleanup=True, view=True)
-    except (ValueError, graphviz.RequiredArgumentError, graphviz.ExecutableNotFound, subprocess.CalledProcessError, RuntimeError) as e:
+    except (ValueError, graphviz.RequiredArgumentError, graphviz.ExecutableNotFound, RuntimeError) as e:
         exit_with_msg(e.msg)
 
 
