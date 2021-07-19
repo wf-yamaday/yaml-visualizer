@@ -1,0 +1,42 @@
+name: Run yaml-viz
+on:
+  push:
+    paths:
+      - '.github/workflows/ci.yaml'
+      - 'viz/**'
+
+jobs:
+  setup:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python: ['3.7']
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Python ${{ matrix.golang }}
+        uses: actions/setup-python@v2
+
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
+      - name: Install yaml-viz
+        run: |
+          pip install git+https://github.com/wf-yamaday/yaml-visualizer
+
+      - name: Run yaml-viz with sample.yml
+        run: |
+          yaml-viz -i ./example/sample.yml -o output-ci
+
+      - name: Upload result
+        uses: actions/upload-artifact@v1
+        with:
+          name: yaml-viz sample,yml result
+          path: ./output-ci.png
