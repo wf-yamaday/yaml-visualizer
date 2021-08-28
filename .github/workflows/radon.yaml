@@ -1,0 +1,34 @@
+name: Check code metrics by radon
+
+on:
+  push:
+    paths:
+      - '.github/workflows/radon.yaml'
+      - 'viz/**'
+
+jobs:
+  setup:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python: ['3.7']
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Python ${{ matrix.python }}
+        uses: actions/setup-python@v2
+
+      - name: Setup radon
+        run: |
+          pip install radon
+
+      - name: Run radon
+        run: |
+          radon cc -s viz
