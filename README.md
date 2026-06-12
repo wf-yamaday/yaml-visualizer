@@ -68,7 +68,7 @@ services:
 ```
 
 ```sh
-$ yaml-biz -i docker-compose.yml -o sample
+$ yaml-viz -i docker-compose.yml -o sample
 ```
 
 ## Output
