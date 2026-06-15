@@ -1,6 +1,6 @@
 # yaml-visualizer
 
-This tool visualize resources defined by `docker-compose.yml`.
+This tool visualizes resources defined by `docker-compose.yml`.
 
 - `services`
 - `volumes`
